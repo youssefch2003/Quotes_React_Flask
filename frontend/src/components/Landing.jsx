@@ -6,11 +6,10 @@ import ModalCategory from './ModalCategory'
 import Mood from './Mood'
 import ModalMood from './ModalMood'
 
-
 const Landing = () => {
   return (
-    <div className='bg-emerald-200' >
-      
+    <div className= 'bg-emerald-200 ' >
+      <Navbar />
       <QuoteDay/>
       <Category/>
       <Mood/>

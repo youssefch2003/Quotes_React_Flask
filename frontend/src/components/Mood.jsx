@@ -1,16 +1,11 @@
 import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import ModalMood from './ModalMood';
-import {LiaAngleDoubleRightSolid} from 'react-icons/lia'
-
-const MoodCategory = ({ emoji, category }) => (
-  <div className="p-24 font-bold text-5xl h-64 flex items-center bg-teal-500 text-white rounded-lg">
-    <span className="w-20 text-center">{emoji}</span>
-    <span className="w-34 text-center">{category}</span>
-  </div>
-);
+import {PiArrowFatLineRight} from 'react-icons/pi'
+import {PiArrowFatLineLeft} from 'react-icons/pi'
 
 const Mood = () => {
-  const [activeSlide, setActiveSlide] = useState(0); // Initialize to 0
   const moodCategories = [
     { category: 'alone', emoji: '😔' },
     { category: 'anger', emoji: '😡' },
@@ -41,78 +36,92 @@ const Mood = () => {
     { category: 'mom', emoji: '👩' },
   ];
 
+  const itemsPerGroup = 3; // Number of mood categories per group
+  const [activeGroup, setActiveGroup] = useState(0); // Initialize to the first group
+
   const [selectedMood, setSelectedMood] = useState(null);
 
-  const handlePrevSlide = () => {
-    setActiveSlide((prevSlide) => (prevSlide === 0 ? moodCategories.length - 1 : prevSlide - 1));
+  const handlePrevGroup = () => {
+    setActiveGroup((prevGroup) => (prevGroup === 0 ? 0 : prevGroup - 1));
   };
 
-  const handleNextSlide = () => {
-    setActiveSlide((prevSlide) => (prevSlide === moodCategories.length - 1 ? 0 : prevSlide + 1));
+  const handleNextGroup = () => {
+    setActiveGroup((prevGroup) =>
+      prevGroup === Math.ceil(moodCategories.length / itemsPerGroup) - 1 ? prevGroup : prevGroup + 1
+    );
   };
 
   const handleMoodClick = (mood) => {
     setSelectedMood(mood);
-    console.log(mood)
   };
 
   const closeMoodModal = () => {
     setSelectedMood(null);
   };
 
-  const currentMood = moodCategories[activeSlide];
+  const startIndex = activeGroup * itemsPerGroup;
+  const endIndex = startIndex + itemsPerGroup;
+  const displayedMoodCategories = moodCategories.slice(startIndex, endIndex);
 
   return (
-    <div className="bg-emerald-200 flex flex-col justify-center items-center">
-      <h1 className="text-2xl font-bold text-center py-5 italic">
-        Select a mood from the slider below to discover an inspiring quote.
-      </h1>
-      <div className="max-w-4xl mx-auto relative">
-        {/* Slider */}
-        <div className="relative">
-          <div className="absolute inset-0 flex items-center justify-start w-1/2">
-            <button
-              className="bg-teal-100 text-teal-500 hover:text-orange-500 font-bold hover:shadow-lg rounded-full w-12 h-12 -ml-6"
-              onClick={handlePrevSlide}
+    <div className="  bg-emerald-200 text-center">
+      <div className="mx-auto max-w-2xl px-2 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+        <h2 className="text-2xl font-bold tracking-tight text-gray-900">Choose Your Mood</h2>
+
+        <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+          {displayedMoodCategories.map((mood, index) => (
+            <div
+              key={index}
+              className="group relative cursor-pointer"
+              onClick={() => handleMoodClick(mood)}
             >
-              &#8592;
-            </button>
-          </div>
-     
-          <div
-            key={currentMood.category}
-            className="p-24 font-bold text-5xl h-64  items-center bg-teal-500 text-white rounded-lg"
-          >
-            <div>
-            <span style={{fontFamily: 'Montserrat'}} className="w-20 text-center">{currentMood.emoji}</span>
-            <span style={{ fontFamily: 'Montserrat, sans-serif' }} className="w-34 text-center">{currentMood.category}</span>
+              <div className="aspect-h-1 aspect-w-1 w-full rounded-md bg-red-300 lg:aspect-none group-hover:opacity-75 lg:h-80">
+              <div className="text-center  ">
+                    <h3 className="text-sm font-medium text-gray-900">{mood.category}</h3>
+                  </div>
+                <div className="flex items-center justify-center h-full">
+                  <span className="text-4xl transform  hover:scale-150">{mood.emoji}</span> 
+                </div>
+
+                 
+              </div>
+              
             </div>
-           
-            <button
-              className="relative flex items-center ml-28 justify-between bg-red-300  hover:bg-red-500 text-xl h-12 text-white font-bold py-1 px-2 rounded-full top-12 cursor-pointer  transform hover:translate-x-1 transition-transform"
-              style={{ fontFamily: 'Montserrat, sans-serif' }} onClick={() => handleMoodClick(currentMood)}
-            >
-              <LiaAngleDoubleRightSolid className='ml-2 cursor-pointer text-3xl iconnn'/><LiaAngleDoubleRightSolid className='ml-2 cursor-pointer text-2xl iconnn'/><LiaAngleDoubleRightSolid 
-              className='ml-2 cursor-pointer ' />ggggggggggggggg
-            </button>
-            
-          </div>
+          ))}
         </div>
-        <div className="absolute inset-0 flex items-center justify-end w-1/2 left-56  ">
-            <button
-              className="bg-teal-100 text-teal-500 hover:text-orange-500 font-bold hover:shadow rounded-full w-12 h-12  "
-              onClick={handleNextSlide}
-            >
-              &#8594;
-            </button>
-          </div>
-        {/* Conditionally render the modal based on selectedCategory */}
-        {selectedMood && (
-          <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50">
-            <ModalMood mood={selectedMood} onClose={closeMoodModal} />
-          </div>
-        )}
+
+       {/* Slide buttons */}
+        <div className=" flex justify-between ">
+                  <button
+                    onClick={handlePrevGroup}
+                    className={`${
+                      activeGroup === 0 ? 'text-emerald-200 cursor-not-allowed' : 'text-red-300 hover:underline'
+                    }`}
+                    disabled={activeGroup === 0}
+                  >
+                    <PiArrowFatLineLeft icon={faArrowLeft} className='relative text-7xl  bold ' />
+                  </button>
+                  <button
+                    onClick={handleNextGroup}
+                    className={`${
+                      activeGroup === Math.ceil(moodCategories.length / itemsPerGroup) - 1
+                        ? 'text-emerald-200 cursor-not-allowed' : 'text-red-200 hover:underline'
+                    }`}
+                    disabled={activeGroup === Math.ceil(moodCategories.length / itemsPerGroup) - 1}
+                  >
+                    {/* className='relative -top-48  left-12' */}
+                    <PiArrowFatLineRight icon={faArrowRight} className='relative text-7xl'/>
+                  </button>
+        </div>
+
       </div>
+
+      {/* Conditionally render the modal based on selectedCategory */}
+      {selectedMood && (
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50">
+          <ModalMood mood={selectedMood} onClose={closeMoodModal} />
+        </div>
+      )}
     </div>
   );
 };

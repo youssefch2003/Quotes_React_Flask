@@ -3,7 +3,7 @@ import axios from "axios";
 import { Dialog } from "@headlessui/react";
 import { HiOutlineLightBulb } from "react-icons/hi";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import Navbar from "./Navbar";
+
 import { LiaQuoteRightSolid } from "react-icons/lia";
 
 const navigation = [
@@ -35,11 +35,11 @@ export default function QuoteDay() {
 
   return (
     <div className="bg-emerald-200">
-      <Navbar />
+      
 
       <div className="relative isolate px-6 pt-14 lg:px-8">
         <div
-          className="absolute inset-y-0 left-0 -z-10 transform-gpu overflow-hidden blur-3xl"
+          className="absolute inset-y-0 left-0 -z-10 transform-gpu  blur-3xl"
           aria-hidden="true"
         >
           <div
@@ -73,11 +73,11 @@ export default function QuoteDay() {
           </div>
 
           <div
-            className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
+            className="absolute inset-x-0 -top-40 -z-10 transform-gpu  blur-3xl sm:-top-80"
             aria-hidden="true"
           >
             <div
-              className="absolute inset-y-0 right-0 -z-10 transform-gpu overflow-hidden blur-3xl"
+              className="absolute inset-y-0 right-0 -z-10 transform-gpu blur-3xl"
               aria-hidden="true"
             >
               <div

@@ -2,8 +2,8 @@ import React from 'react';
 import {LiaQuoteRightSolid} from 'react-icons/lia'
 function Navbar() {
   return (
-    <nav className="bg-emerald-200   z-20     ">
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+    <nav className="bg-emerald-200   z-20    ">
+      <div className="max-w-screen-xl flex flex-wrap items-center justify-between  p-4">
         <a href="/" className="flex items-center">
           
           <span className="self-center text-sky-500 text-2xl font-semibold whitespace-nowrap ">
