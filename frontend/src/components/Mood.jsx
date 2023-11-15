@@ -4,6 +4,7 @@ import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import ModalMood from './ModalMood';
 import {PiArrowFatLineRight} from 'react-icons/pi'
 import {PiArrowFatLineLeft} from 'react-icons/pi'
+import ModalCategory from './ModalCategory';
 
 const Mood = () => {
   const moodCategories = [
@@ -36,10 +37,10 @@ const Mood = () => {
     { category: 'mom', emoji: '👩' },
   ];
 
-  const itemsPerGroup = 3; // Number of mood categories per group
+  const itemsPerGroup = 4 ; // Number of mood categories per group
   const [activeGroup, setActiveGroup] = useState(0); // Initialize to the first group
 
-  const [selectedMood, setSelectedMood] = useState(null);
+  const [selectedMood, setSelectedMood] = useState("");
 
   const handlePrevGroup = () => {
     setActiveGroup((prevGroup) => (prevGroup === 0 ? 0 : prevGroup - 1));
@@ -75,7 +76,7 @@ const Mood = () => {
               className="group relative cursor-pointer"
               onClick={() => handleMoodClick(mood)}
             >
-              <div className="aspect-h-1 aspect-w-1 w-full rounded-md bg-red-300 lg:aspect-none group-hover:opacity-75 lg:h-80">
+              <div className="aspect-h-1 aspect-w-1 rounded-lg  lg:aspect-none group-hover:opacity-75 lg:h-80" style={{ backgroundColor: '#fff' }}>
               <div className="text-center  ">
                     <h3 className="text-sm font-medium text-gray-900">{mood.category}</h3>
                   </div>
@@ -119,7 +120,10 @@ const Mood = () => {
       {/* Conditionally render the modal based on selectedCategory */}
       {selectedMood && (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50">
-          <ModalMood mood={selectedMood} onClose={closeMoodModal} />
+          <ModalCategory
+            category={selectedMood.category}
+            onClose={closeMoodModal}
+          />
         </div>
       )}
     </div>

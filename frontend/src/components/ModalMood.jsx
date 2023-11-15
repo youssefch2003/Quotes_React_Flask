@@ -1,6 +1,26 @@
-import React from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
-const ModalMood = ({ mood, onClose }) => {
+const ModalMood = ({ category, onClose }) => {
+  const [categoryQuote,setCategoryQuote]=useState("");
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/get_quote/${category}`
+        );
+        setCategoryQuote(response.data.quote[0]);
+        console.log(response);
+        // console.log(response.data.quote[0]);
+      } catch (err) {
+        console.log("❌❌❌ Something Went Wrong", err);
+      }
+    };
+
+    fetchData(); // Call the async function when the component mounts
+  }, [category]); // Empty dependency array means this runs once when the component mounts
+
+
   return (
     <div className="overflow-y-auto sm:p-0 pt-4 pr-4 pb-20 pl-4 bg-transparent">
       <div className="flex justify-center items-end text-center min-h-screen sm:block">
